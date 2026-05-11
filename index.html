@@ -1,300 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
- <!-- Telegram WebApp API -->
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
- 
 <head>
-
-  <meta charset="UTF-8" />
-
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0"/>
-
-  <title>Telegram Crypto Mining</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css"/>
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-
-  <!-- Telegram WebApp -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Cloud Miner</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
 
-<div class="telegram-user">
-
-  <img
-    id="userPhoto"
-    class="avatar"
-    src="https://i.pravatar.cc/100"
-  />
-
-  <div>
-
-    <div id="username">
-      Loading...
-    </div>
-
-    <div id="userid">
-      Telegram User
-    </div>
-
-  </div>
-
-</div>
- 
-  <div class="app">
-
-    <!-- HEADER -->
-    <div class="header">
-
-      <div class="profile">
-
-        <img id="userPhoto"
-        class="avatar"
-        src="https://i.pravatar.cc/100"/>
-
-        <div>
-
-          <div class="welcome">
-            Welcome Back
-          </div>
-
-          <div class="username"
-          id="username">
-            Miner
-          </div>
-
+    <div class="app-container">
+        <!-- Live Crypto Price Ticker -->
+        <div class="price-ticker">
+            <marquee id="crypto-prices">Loading prices...</marquee>
         </div>
 
-      </div>
+        <!-- Header Area -->
+        <header>
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/40" alt="User" id="user-pfp">
+                <span id="user-name">Telegram User</span>
+            </div>
+            <div class="balance-container">
+                <p>Total Balance</p>
+                <h1 id="balance">0.00000000</h1>
+                <span class="coin-type">USDT (Simulated)</span>
+            </div>
+        </header>
 
-      <div class="notification">
-        <i class="fa-solid fa-bell"></i>
-      </div>
-
-    </div>
-
-    <!-- BALANCE -->
-    <div class="balance-card">
-
-      <div class="small-title">
-        Total Balance
-      </div>
-
-      <div class="balance"
-      id="balance">
-        0.0000 BTC
-      </div>
-
-      <div class="usd"
-      id="usdBalance">
-        ≈ $0.00
-      </div>
-
-      <div class="mining-status">
-
-        <div class="active-badge">
-          Mining Active
-        </div>
-
-        <div class="online-users"
-        id="onlineUsers">
-          4,823 miners online
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- STATS -->
-    <div class="stats-grid">
-
-      <div class="stat-card">
-
-        <div class="stat-title">
-          Hash Rate
-        </div>
-
-        <div class="stat-value"
-        id="hashRate">
-          1.20 GH/s
-        </div>
-
-      </div>
-
-      <div class="stat-card">
-
-        <div class="stat-title">
-          Energy
-        </div>
-
-        <div class="stat-value"
-        id="energyText">
-          100%
-        </div>
-
-        <div class="progress-bar">
-          <div class="progress"
-          id="energyBar"></div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- MINERS -->
-    <div class="section">
-
-      <div class="section-title">
-        Cloud Miners
-      </div>
-
-      <div class="miner-card">
-
-        <div class="miner-left">
-
-          <div class="miner-icon">
-            <i class="fa-solid fa-microchip"></i>
-          </div>
-
-          <div>
-
-            <div class="miner-name">
-              GPU Miner
+        <!-- Mining Dashboard -->
+        <main id="mining-page" class="page active">
+            <div class="mining-rig">
+                <div class="fan-container">
+                    <div class="fan active" id="rig-fan"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <p>Hashrate</p>
+                        <h3 id="hashrate">45.2 TH/s</h3>
+                    </div>
+                    <div class="stat-box">
+                        <p>Status</p>
+                        <h3 id="status" class="green">Mining...</h3>
+                    </div>
+                </div>
             </div>
 
-            <div class="miner-speed">
-              5 GH/s Speed
+            <div class="boost-section">
+                <button class="boost-btn" onclick="watchAd()">🚀 Boost 2x Speed (Watch Ad)</button>
             </div>
+        </main>
 
-          </div>
-
-        </div>
-
-        <button class="upgrade-btn"
-        onclick="upgradeMiner()">
-          Upgrade
-        </button>
-
-      </div>
-
-      <div class="miner-card">
-
-        <div class="miner-left">
-
-          <div class="miner-icon">
-            <i class="fa-solid fa-server"></i>
-          </div>
-
-          <div>
-
-            <div class="miner-name">
-              ASIC Miner
+        <!-- Withdrawal Page -->
+        <section id="withdraw-page" class="page">
+            <h2>Secure Withdrawal</h2>
+            <div class="withdrawal-form">
+                <label>Select Coin</label>
+                <select id="coin-select">
+                    <option value="ton">TON (Mainnet)</option>
+                    <option value="usdt">USDT (BEP20)</option>
+                    <option value="btc">BTC</option>
+                </select>
+                <input type="text" placeholder="Enter Wallet Address">
+                <button class="action-btn" onclick="attemptWithdraw()">Withdraw Now</button>
             </div>
-
-            <div class="miner-speed">
-              20 GH/s Speed
+            <div class="conditions">
+                <p>⚠️ <b>Conditions:</b> Min $10, 5 Referrals, 10 Ad Boosts required.</p>
             </div>
+        </section>
 
-          </div>
+        <!-- History Page -->
+        <section id="history-page" class="page">
+            <h2>Mining Logs</h2>
+            <div id="logs-container">
+                <div class="log-item"><span>0.000002 BTC</span> <span>Completed</span></div>
+            </div>
+        </section>
 
-        </div>
-
-        <button class="locked-btn">
-          Locked
-        </button>
-
-      </div>
-
+        <!-- Navigation Bar -->
+        <nav class="bottom-nav">
+            <div onclick="showPage('mining-page')">⛏️<p>Mine</p></div>
+            <div onclick="showPage('withdraw-page')">💳<p>Wallet</p></div>
+            <div onclick="showPage('history-page')">📜<p>History</p></div>
+        </nav>
     </div>
 
-    <!-- CHART -->
-    <div class="section">
-
-      <div class="section-title">
-        Mining Statistics
-      </div>
-
-      <canvas id="miningChart"></canvas>
-
-    </div>
-
-    <!-- MARKET -->
-    <div class="section">
-
-      <div class="section-title">
-        Crypto Market
-      </div>
-
-      <div id="marketList"></div>
-
-    </div>
-
-    <!-- DAILY REWARD -->
-    <div class="reward-card">
-
-      <div>
-
-        <div class="reward-title">
-          Daily Reward
-        </div>
-
-        <div class="reward-sub">
-          Claim free mining bonus
-        </div>
-
-      </div>
-
-      <button class="claim-btn"
-      onclick="claimReward()">
-        Claim
-      </button>
-
-    </div>
-
-    <!-- NAVIGATION -->
-    <div class="bottom-nav">
-
-      <div class="nav-item active">
-        <i class="fa-solid fa-house"></i>
-        Home
-      </div>
-
-      <div class="nav-item">
-        <i class="fa-solid fa-wallet"></i>
-        Wallet
-      </div>
-
-      <div class="nav-item">
-        <i class="fa-solid fa-chart-line"></i>
-        Market
-      </div>
-
-      <div class="nav-item">
-        <i class="fa-solid fa-users"></i>
-        Referral
-      </div>
-
-      <div class="nav-item">
-        <i class="fa-solid fa-user"></i>
-        Profile
-      </div>
-
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
