@@ -2,43 +2,51 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Crypto Mining Dashboard</title>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0"/>
+
+  <title>Telegram Crypto Mining</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css"/>
 
   <!-- Font Awesome -->
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="style.css"/>
+  <!-- Telegram WebApp -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="app">
 
-    <!-- Top Bar -->
-    <div class="topbar">
+    <!-- HEADER -->
+    <div class="header">
 
       <div class="profile">
 
-        <div class="avatar">
-          S
-        </div>
+        <img id="userPhoto"
+        class="avatar"
+        src="https://i.pravatar.cc/100"/>
 
         <div>
 
-          <div class="username">
-            Soyon Miner
+          <div class="welcome">
+            Welcome Back
           </div>
 
-          <div class="miners-online" id="onlineMiners">
-            4,823 miners online
+          <div class="username"
+          id="username">
+            Miner
           </div>
 
         </div>
@@ -51,156 +59,133 @@
 
     </div>
 
-    <!-- Balance Card -->
-    <div class="card">
+    <!-- BALANCE -->
+    <div class="balance-card">
 
-      <div class="balance-title">
-        Total Mining Balance
+      <div class="small-title">
+        Total Balance
       </div>
 
-      <div class="balance" id="balance">
+      <div class="balance"
+      id="balance">
         0.0000 BTC
       </div>
 
-      <div class="usd" id="usdValue">
-        ≈ $0.00 USD
+      <div class="usd"
+      id="usdBalance">
+        ≈ $0.00
       </div>
 
       <div class="mining-status">
 
-        <div class="status-badge">
+        <div class="active-badge">
           Mining Active
         </div>
 
-        <div class="earnings">
-          +0.000021 BTC/hr
+        <div class="online-users"
+        id="onlineUsers">
+          4,823 miners online
         </div>
 
       </div>
 
     </div>
 
-    <!-- Stats Grid -->
+    <!-- STATS -->
     <div class="stats-grid">
 
-      <!-- Hash Rate -->
-      <div class="stat-box">
+      <div class="stat-card">
 
         <div class="stat-title">
           Hash Rate
         </div>
 
-        <div class="stat-value" id="hashRate">
+        <div class="stat-value"
+        id="hashRate">
           1.20 GH/s
         </div>
 
       </div>
 
-      <!-- Miner Level -->
-      <div class="stat-box">
-
-        <div class="stat-title">
-          Miner Level
-        </div>
-
-        <div class="stat-value" id="minerLevel">
-          LVL 1
-        </div>
-
-      </div>
-
-      <!-- Energy -->
-      <div class="stat-box">
+      <div class="stat-card">
 
         <div class="stat-title">
           Energy
         </div>
 
-        <div class="stat-value" id="energyText">
+        <div class="stat-value"
+        id="energyText">
           100%
         </div>
 
         <div class="progress-bar">
-          <div class="progress" id="energyBar"></div>
-        </div>
-
-      </div>
-
-      <!-- Daily Reward -->
-      <div class="stat-box">
-
-        <div class="stat-title">
-          Daily Reward
-        </div>
-
-        <div class="stat-value">
-          500 Coins
+          <div class="progress"
+          id="energyBar"></div>
         </div>
 
       </div>
 
     </div>
 
-    <!-- Mining Machines -->
-    <div class="card">
+    <!-- MINERS -->
+    <div class="section">
 
-      <div class="balance-title">
-        Mining Machines
+      <div class="section-title">
+        Cloud Miners
       </div>
 
-      <!-- GPU Rig -->
-      <div class="machine-card">
+      <div class="miner-card">
 
-        <div class="machine-left">
+        <div class="miner-left">
 
-          <div class="machine-icon">
+          <div class="miner-icon">
             <i class="fa-solid fa-microchip"></i>
           </div>
 
           <div>
 
-            <div class="machine-name">
-              GPU Rig
+            <div class="miner-name">
+              GPU Miner
             </div>
 
-            <div class="machine-speed">
-              5 GH/s Mining Speed
+            <div class="miner-speed">
+              5 GH/s Speed
             </div>
 
           </div>
 
         </div>
 
-        <button class="upgrade-btn" onclick="upgradeMiner()">
+        <button class="upgrade-btn"
+        onclick="upgradeMiner()">
           Upgrade
         </button>
 
       </div>
 
-      <!-- ASIC Miner -->
-      <div class="machine-card">
+      <div class="miner-card">
 
-        <div class="machine-left">
+        <div class="miner-left">
 
-          <div class="machine-icon">
+          <div class="miner-icon">
             <i class="fa-solid fa-server"></i>
           </div>
 
           <div>
 
-            <div class="machine-name">
+            <div class="miner-name">
               ASIC Miner
             </div>
 
-            <div class="machine-speed">
-              20 GH/s Mining Speed
+            <div class="miner-speed">
+              20 GH/s Speed
             </div>
 
           </div>
 
         </div>
 
-        <button class="upgrade-btn">
+        <button class="locked-btn">
           Locked
         </button>
 
@@ -208,92 +193,52 @@
 
     </div>
 
-    <!-- Mining Chart -->
-    <div class="card">
+    <!-- CHART -->
+    <div class="section">
 
-      <div class="balance-title">
-        Mining Earnings
+      <div class="section-title">
+        Mining Statistics
       </div>
 
-      <div class="chart-container">
-        <canvas id="miningChart"></canvas>
-      </div>
+      <canvas id="miningChart"></canvas>
 
     </div>
 
-    <!-- Coin Market -->
-    <div class="card">
+    <!-- MARKET -->
+    <div class="section">
 
-      <div class="balance-title">
-        Coin Market
+      <div class="section-title">
+        Crypto Market
       </div>
 
-      <!-- Bitcoin -->
-      <div class="market-row">
-
-        <div class="coin">
-
-          <div class="coin-icon">
-            ₿
-          </div>
-
-          <div>
-
-            <div class="coin-name">
-              Bitcoin
-            </div>
-
-            <div class="coin-price">
-              $67,240
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="green">
-          +3.2%
-        </div>
-
-      </div>
-
-      <!-- Ethereum -->
-      <div class="market-row">
-
-        <div class="coin">
-
-          <div class="coin-icon">
-            Ξ
-          </div>
-
-          <div>
-
-            <div class="coin-name">
-              Ethereum
-            </div>
-
-            <div class="coin-price">
-              $3,410
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="green">
-          +5.1%
-        </div>
-
-      </div>
+      <div id="marketList"></div>
 
     </div>
 
-  </div>
+    <!-- DAILY REWARD -->
+    <div class="reward-card">
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav">
+      <div>
 
-    <div class="nav-content">
+        <div class="reward-title">
+          Daily Reward
+        </div>
+
+        <div class="reward-sub">
+          Claim free mining bonus
+        </div>
+
+      </div>
+
+      <button class="claim-btn"
+      onclick="claimReward()">
+        Claim
+      </button>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="bottom-nav">
 
       <div class="nav-item active">
         <i class="fa-solid fa-house"></i>
@@ -312,19 +257,18 @@
 
       <div class="nav-item">
         <i class="fa-solid fa-users"></i>
-        Team
+        Referral
       </div>
 
       <div class="nav-item">
-        <i class="fa-solid fa-gear"></i>
-        Settings
+        <i class="fa-solid fa-user"></i>
+        Profile
       </div>
 
     </div>
 
   </div>
 
-  <!-- Main JS -->
   <script src="app.js"></script>
 
 </body>
