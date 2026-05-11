@@ -1,731 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Crypto Mining Dashboard</title>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css"/>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    body{
-      background:#070b14;
-      color:white;
-      font-family:Arial, sans-serif;
-      overflow-x:hidden;
-    }
-
-    .container{
-      max-width:430px;
-      margin:auto;
-      min-height:100vh;
-      padding:16px;
-      padding-bottom:100px;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:20px;
-    }
-
-    .profile{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .avatar{
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#00f0ff,#0066ff);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:20px;
-      font-weight:bold;
-    }
-
-    .username{
-      font-size:18px;
-      font-weight:bold;
-    }
-
-    .miners-online{
-      color:#00ff9d;
-      font-size:13px;
-      margin-top:4px;
-    }
-
-    .notification{
-      width:45px;
-      height:45px;
-      border-radius:14px;
-      background:#101827;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:18px;
-    }
-
-    .card{
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:22px;
-      padding:18px;
-      margin-bottom:16px;
-      backdrop-filter:blur(10px);
-      box-shadow:0 0 20px rgba(0,255,255,0.04);
-    }
-
-    .balance-title{
-      color:#8ca3b8;
-      font-size:14px;
-    }
-
-    .balance{
-      font-size:34px;
-      font-weight:bold;
-      margin-top:10px;
-    }
-
-    .usd{
-      color:#00ff9d;
-      margin-top:6px;
-      font-size:14px;
-    }
-
-    .stats-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
-    .stat-box{
-      background:#0e1625;
-      padding:16px;
-      border-radius:18px;
-    }
-
-    .stat-title{
-      color:#8ca3b8;
-      font-size:13px;
-      margin-bottom:10px;
-    }
-
-    .stat-value{
-      font-size:20px;
-      font-weight:bold;
-    }
-
-    .progress-bar{
-      width:100%;
-      height:10px;
-      background:#1d293d;
-      border-radius:20px;
-      overflow:hidden;
-      margin-top:10px;
-    }
-
-    .progress{
-      height:100%;
-      background:linear-gradient(to right,#00f0ff,#0066ff);
-      width:70%;
-      border-radius:20px;
-    }
-
-    .machine-card{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background:#0e1625;
-      padding:16px;
-      border-radius:18px;
-      margin-top:12px;
-    }
-
-    .machine-left{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .machine-icon{
-      width:50px;
-      height:50px;
-      border-radius:14px;
-      background:linear-gradient(135deg,#00f0ff,#004cff);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:20px;
-    }
-
-    .machine-name{
-      font-weight:bold;
-      margin-bottom:5px;
-    }
-
-    .machine-speed{
-      color:#8ca3b8;
-      font-size:13px;
-    }
-
-    .upgrade-btn{
-      background:linear-gradient(to right,#00f0ff,#0066ff);
-      border:none;
-      color:white;
-      padding:10px 16px;
-      border-radius:14px;
-      font-weight:bold;
-    }
-
-    .chart-container{
-      margin-top:10px;
-    }
-
-    canvas{
-      width:100% !important;
-      height:220px !important;
-    }
-
-    .market-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background:#0e1625;
-      padding:14px;
-      border-radius:16px;
-      margin-top:10px;
-    }
-
-    .coin{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .coin-icon{
-      width:42px;
-      height:42px;
-      border-radius:50%;
-      background:#1e293b;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:18px;
-    }
-
-    .coin-name{
-      font-weight:bold;
-    }
-
-    .coin-price{
-      font-size:14px;
-      color:#8ca3b8;
-    }
-
-    .green{
-      color:#00ff9d;
-      font-weight:bold;
-    }
-
-    .bottom-nav{
-      position:fixed;
-      bottom:0;
-      left:0;
-      width:100%;
-      background:#0b1220;
-      border-top:1px solid rgba(255,255,255,0.05);
-      padding:12px 0;
-    }
-
-    .nav-content{
-      max-width:430px;
-      margin:auto;
-      display:flex;
-      justify-content:space-around;
-    }
-
-    .nav-item{
-      text-align:center;
-      color:#8ca3b8;
-      font-size:13px;
-    }
-
-    .nav-item i{
-      display:block;
-      font-size:20px;
-      margin-bottom:6px;
-    }
-
-    .active{
-      color:#00f0ff;
-    }
-
-    .mining-status{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-top:14px;
-    }
-
-    .status-badge{
-      background:#00ff9d20;
-      color:#00ff9d;
-      padding:8px 14px;
-      border-radius:30px;
-      font-size:13px;
-      font-weight:bold;
-    }
-
-    .earnings{
-      margin-top:10px;
-      color:#00ff9d;
-      font-size:14px;
-    }
-
-  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <!-- Top -->
-  <div class="topbar">
+    <!-- Top Bar -->
+    <div class="topbar">
 
-    <div class="profile">
+      <div class="profile">
 
-      <div class="avatar">
-        S
-      </div>
-
-      <div>
-        <div class="username">
-          Soyon Miner
-        </div>
-
-        <div class="miners-online" id="onlineMiners">
-          4,823 miners online
-        </div>
-      </div>
-
-    </div>
-
-    <div class="notification">
-      <i class="fa-solid fa-bell"></i>
-    </div>
-
-  </div>
-
-  <!-- Balance -->
-  <div class="card">
-
-    <div class="balance-title">
-      Total Mining Balance
-    </div>
-
-    <div class="balance" id="balance">
-      0.0000 BTC
-    </div>
-
-    <div class="usd" id="usdValue">
-      ≈ $0.00 USD
-    </div>
-
-    <div class="mining-status">
-
-      <div class="status-badge">
-        Mining Active
-      </div>
-
-      <div class="earnings">
-        +0.000021 BTC/hr
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Stats -->
-  <div class="stats-grid">
-
-    <div class="stat-box">
-
-      <div class="stat-title">
-        Hash Rate
-      </div>
-
-      <div class="stat-value" id="hashRate">
-        1.20 GH/s
-      </div>
-
-    </div>
-
-    <div class="stat-box">
-
-      <div class="stat-title">
-        Miner Level
-      </div>
-
-      <div class="stat-value" id="minerLevel">
-        LVL 1
-      </div>
-
-    </div>
-
-    <div class="stat-box">
-
-      <div class="stat-title">
-        Energy
-      </div>
-
-      <div class="stat-value" id="energyText">
-        100%
-      </div>
-
-      <div class="progress-bar">
-        <div class="progress" id="energyBar"></div>
-      </div>
-
-    </div>
-
-    <div class="stat-box">
-
-      <div class="stat-title">
-        Daily Reward
-      </div>
-
-      <div class="stat-value">
-        500 Coins
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Machines -->
-  <div class="card">
-
-    <div class="balance-title">
-      Mining Machines
-    </div>
-
-    <div class="machine-card">
-
-      <div class="machine-left">
-
-        <div class="machine-icon">
-          <i class="fa-solid fa-microchip"></i>
+        <div class="avatar">
+          S
         </div>
 
         <div>
 
-          <div class="machine-name">
-            GPU Rig
+          <div class="username">
+            Soyon Miner
           </div>
 
-          <div class="machine-speed">
-            5 GH/s Mining Speed
+          <div class="miners-online" id="onlineMiners">
+            4,823 miners online
           </div>
 
         </div>
 
       </div>
 
-      <button class="upgrade-btn" onclick="upgradeMiner()">
-        Upgrade
-      </button>
+      <div class="notification">
+        <i class="fa-solid fa-bell"></i>
+      </div>
 
     </div>
 
-    <div class="machine-card">
+    <!-- Balance Card -->
+    <div class="card">
 
-      <div class="machine-left">
+      <div class="balance-title">
+        Total Mining Balance
+      </div>
 
-        <div class="machine-icon">
-          <i class="fa-solid fa-server"></i>
+      <div class="balance" id="balance">
+        0.0000 BTC
+      </div>
+
+      <div class="usd" id="usdValue">
+        ≈ $0.00 USD
+      </div>
+
+      <div class="mining-status">
+
+        <div class="status-badge">
+          Mining Active
         </div>
 
-        <div>
-
-          <div class="machine-name">
-            ASIC Miner
-          </div>
-
-          <div class="machine-speed">
-            20 GH/s Mining Speed
-          </div>
-
+        <div class="earnings">
+          +0.000021 BTC/hr
         </div>
 
       </div>
 
-      <button class="upgrade-btn">
-        Locked
-      </button>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+
+      <!-- Hash Rate -->
+      <div class="stat-box">
+
+        <div class="stat-title">
+          Hash Rate
+        </div>
+
+        <div class="stat-value" id="hashRate">
+          1.20 GH/s
+        </div>
+
+      </div>
+
+      <!-- Miner Level -->
+      <div class="stat-box">
+
+        <div class="stat-title">
+          Miner Level
+        </div>
+
+        <div class="stat-value" id="minerLevel">
+          LVL 1
+        </div>
+
+      </div>
+
+      <!-- Energy -->
+      <div class="stat-box">
+
+        <div class="stat-title">
+          Energy
+        </div>
+
+        <div class="stat-value" id="energyText">
+          100%
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress" id="energyBar"></div>
+        </div>
+
+      </div>
+
+      <!-- Daily Reward -->
+      <div class="stat-box">
+
+        <div class="stat-title">
+          Daily Reward
+        </div>
+
+        <div class="stat-value">
+          500 Coins
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mining Machines -->
+    <div class="card">
+
+      <div class="balance-title">
+        Mining Machines
+      </div>
+
+      <!-- GPU Rig -->
+      <div class="machine-card">
+
+        <div class="machine-left">
+
+          <div class="machine-icon">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+
+          <div>
+
+            <div class="machine-name">
+              GPU Rig
+            </div>
+
+            <div class="machine-speed">
+              5 GH/s Mining Speed
+            </div>
+
+          </div>
+
+        </div>
+
+        <button class="upgrade-btn" onclick="upgradeMiner()">
+          Upgrade
+        </button>
+
+      </div>
+
+      <!-- ASIC Miner -->
+      <div class="machine-card">
+
+        <div class="machine-left">
+
+          <div class="machine-icon">
+            <i class="fa-solid fa-server"></i>
+          </div>
+
+          <div>
+
+            <div class="machine-name">
+              ASIC Miner
+            </div>
+
+            <div class="machine-speed">
+              20 GH/s Mining Speed
+            </div>
+
+          </div>
+
+        </div>
+
+        <button class="upgrade-btn">
+          Locked
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Mining Chart -->
+    <div class="card">
+
+      <div class="balance-title">
+        Mining Earnings
+      </div>
+
+      <div class="chart-container">
+        <canvas id="miningChart"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Coin Market -->
+    <div class="card">
+
+      <div class="balance-title">
+        Coin Market
+      </div>
+
+      <!-- Bitcoin -->
+      <div class="market-row">
+
+        <div class="coin">
+
+          <div class="coin-icon">
+            ₿
+          </div>
+
+          <div>
+
+            <div class="coin-name">
+              Bitcoin
+            </div>
+
+            <div class="coin-price">
+              $67,240
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="green">
+          +3.2%
+        </div>
+
+      </div>
+
+      <!-- Ethereum -->
+      <div class="market-row">
+
+        <div class="coin">
+
+          <div class="coin-icon">
+            Ξ
+          </div>
+
+          <div>
+
+            <div class="coin-name">
+              Ethereum
+            </div>
+
+            <div class="coin-price">
+              $3,410
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="green">
+          +5.1%
+        </div>
+
+      </div>
 
     </div>
 
   </div>
 
-  <!-- Chart -->
-  <div class="card">
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
 
-    <div class="balance-title">
-      Mining Earnings
-    </div>
+    <div class="nav-content">
 
-    <div class="chart-container">
-      <canvas id="miningChart"></canvas>
-    </div>
-
-  </div>
-
-  <!-- Market -->
-  <div class="card">
-
-    <div class="balance-title">
-      Coin Market
-    </div>
-
-    <div class="market-row">
-
-      <div class="coin">
-
-        <div class="coin-icon">
-          ₿
-        </div>
-
-        <div>
-
-          <div class="coin-name">
-            Bitcoin
-          </div>
-
-          <div class="coin-price">
-            $67,240
-          </div>
-
-        </div>
-
+      <div class="nav-item active">
+        <i class="fa-solid fa-house"></i>
+        Home
       </div>
 
-      <div class="green">
-        +3.2%
+      <div class="nav-item">
+        <i class="fa-solid fa-wallet"></i>
+        Wallet
       </div>
 
-    </div>
-
-    <div class="market-row">
-
-      <div class="coin">
-
-        <div class="coin-icon">
-          Ξ
-        </div>
-
-        <div>
-
-          <div class="coin-name">
-            Ethereum
-          </div>
-
-          <div class="coin-price">
-            $3,410
-          </div>
-
-        </div>
-
+      <div class="nav-item">
+        <i class="fa-solid fa-chart-line"></i>
+        Market
       </div>
 
-      <div class="green">
-        +5.1%
+      <div class="nav-item">
+        <i class="fa-solid fa-users"></i>
+        Team
+      </div>
+
+      <div class="nav-item">
+        <i class="fa-solid fa-gear"></i>
+        Settings
       </div>
 
     </div>
 
   </div>
 
-</div>
-
-<!-- Bottom Nav -->
-<div class="bottom-nav">
-
-  <div class="nav-content">
-
-    <div class="nav-item active">
-      <i class="fa-solid fa-house"></i>
-      Home
-    </div>
-
-    <div class="nav-item">
-      <i class="fa-solid fa-wallet"></i>
-      Wallet
-    </div>
-
-    <div class="nav-item">
-      <i class="fa-solid fa-chart-line"></i>
-      Market
-    </div>
-
-    <div class="nav-item">
-      <i class="fa-solid fa-users"></i>
-      Team
-    </div>
-
-    <div class="nav-item">
-      <i class="fa-solid fa-gear"></i>
-      Settings
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-
-let balance = 0;
-
-let hashRate = 1.2;
-
-let energy = 100;
-
-let minerLevel = 1;
-
-function updateUI(){
-
-  document.getElementById("balance")
-    .innerText =
-    balance.toFixed(4) + " BTC";
-
-  document.getElementById("usdValue")
-    .innerText =
-    "≈ $" + (balance * 67240).toFixed(2) + " USD";
-
-  document.getElementById("hashRate")
-    .innerText =
-    hashRate.toFixed(2) + " GH/s";
-
-  document.getElementById("energyText")
-    .innerText =
-    energy.toFixed(0) + "%";
-
-  document.getElementById("minerLevel")
-    .innerText =
-    "LVL " + minerLevel;
-
-  document.getElementById("energyBar")
-    .style.width =
-    energy + "%";
-}
-
-setInterval(() => {
-
-  if(energy > 0){
-
-    let mined =
-      hashRate / 100000;
-
-    balance += mined;
-
-    energy -= 0.08;
-
-    updateUI();
-  }
-
-},1000);
-
-function upgradeMiner(){
-
-  let cost = 0.002;
-
-  if(balance >= cost){
-
-    balance -= cost;
-
-    hashRate += 0.8;
-
-    minerLevel += 1;
-
-    energy = 100;
-
-    updateUI();
-
-    alert("Miner upgraded successfully!");
-
-  }else{
-
-    alert("Not enough balance!");
-  }
-
-}
-
-setInterval(() => {
-
-  let miners =
-    Math.floor(Math.random() * 3000) + 4000;
-
-  document.getElementById("onlineMiners")
-    .innerText =
-    miners + " miners online";
-
-},5000);
-
-const ctx =
-document.getElementById('miningChart');
-
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['1H','2H','3H','4H','5H','6H'],
-    datasets: [{
-      label: 'Mining',
-      data: [2,4,3,6,7,9],
-      borderWidth: 3,
-      tension:0.4
-    }]
-  },
-  options: {
-    responsive:true,
-    plugins:{
-      legend:{
-        labels:{
-          color:'white'
-        }
-      }
-    },
-    scales:{
-      x:{
-        ticks:{
-          color:'white'
-        }
-      },
-      y:{
-        ticks:{
-          color:'white'
-        }
-      }
-    }
-  }
-});
-
-updateUI();
-
-</script>
+  <!-- Main JS -->
+  <script src="app.js"></script>
 
 </body>
 </html>
