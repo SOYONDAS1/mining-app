@@ -1,44 +1,121 @@
-/* =========================
-   REALISTIC CRYPTO MINING APP
-   ADVANCED app.js
-========================= */
+/* ======================
+   TELEGRAM WEB APP
+====================== */
 
-/* =========================
+const tg = window.Telegram.WebApp;
+
+tg.expand();
+
+let user = tg.initDataUnsafe.user;
+
+/* ======================
+   USER PROFILE
+====================== */
+
+if(user){
+
+  document.getElementById(
+    "username"
+  ).innerText =
+    user.first_name;
+
+  if(user.photo_url){
+
+    document.getElementById(
+      "userPhoto"
+    ).src =
+      user.photo_url;
+  }
+
+}
+
+/* ======================
    VARIABLES
-========================= */
+====================== */
 
 let balance =
   localStorage.getItem("balance")
-    ? parseFloat(localStorage.getItem("balance"))
-    : 0;
+  ? parseFloat(
+      localStorage.getItem("balance")
+    )
+  : 0;
 
 let hashRate =
   localStorage.getItem("hashRate")
-    ? parseFloat(localStorage.getItem("hashRate"))
-    : 1.2;
+  ? parseFloat(
+      localStorage.getItem("hashRate")
+    )
+  : 1.2;
 
 let energy =
   localStorage.getItem("energy")
-    ? parseFloat(localStorage.getItem("energy"))
-    : 100;
+  ? parseFloat(
+      localStorage.getItem("energy")
+    )
+  : 100;
 
-let minerLevel =
-  localStorage.getItem("minerLevel")
-    ? parseInt(localStorage.getItem("minerLevel"))
-    : 1;
+let btcPrice = 65000;
 
-let totalMined =
-  localStorage.getItem("totalMined")
-    ? parseFloat(localStorage.getItem("totalMined"))
-    : 0;
+/* ======================
+   UPDATE UI
+====================== */
 
-let miningActive = true;
+function updateUI(){
 
-let btcPrice = 67240;
+  document.getElementById(
+    "balance"
+  ).innerText =
+    balance.toFixed(4) + " BTC";
 
-/* =========================
+  document.getElementById(
+    "usdBalance"
+  ).innerText =
+    "≈ $" +
+    (balance * btcPrice).toFixed(2);
+
+  document.getElementById(
+    "hashRate"
+  ).innerText =
+    hashRate.toFixed(2)
+    + " GH/s";
+
+  document.getElementById(
+    "energyText"
+  ).innerText =
+    energy.toFixed(0) + "%";
+
+  document.getElementById(
+    "energyBar"
+  ).style.width =
+    energy + "%";
+
+}
+
+/* ======================
+   AUTO MINING
+====================== */
+
+setInterval(() => {
+
+  if(energy > 0){
+
+    let mined =
+      hashRate / 100000;
+
+    balance += mined;
+
+    energy -= 0.05;
+
+    updateUI();
+
+    saveData();
+  }
+
+},1000);
+
+/* ======================
    SAVE DATA
-========================= */
+====================== */
 
 function saveData(){
 
@@ -57,126 +134,15 @@ function saveData(){
     energy
   );
 
-  localStorage.setItem(
-    "minerLevel",
-    minerLevel
-  );
-
-  localStorage.setItem(
-    "totalMined",
-    totalMined
-  );
-
 }
 
-/* =========================
-   UPDATE UI
-========================= */
-
-function updateUI(){
-
-  // Balance
-  document.getElementById("balance")
-    .innerText =
-    balance.toFixed(4) + " BTC";
-
-  // USD Value
-  document.getElementById("usdValue")
-    .innerText =
-    "≈ $" +
-    (balance * btcPrice).toFixed(2) +
-    " USD";
-
-  // Hash Rate
-  document.getElementById("hashRate")
-    .innerText =
-    hashRate.toFixed(2) + " GH/s";
-
-  // Energy
-  document.getElementById("energyText")
-    .innerText =
-    energy.toFixed(0) + "%";
-
-  // Energy Bar
-  document.getElementById("energyBar")
-    .style.width =
-    energy + "%";
-
-  // Level
-  document.getElementById("minerLevel")
-    .innerText =
-    "LVL " + minerLevel;
-
-}
-
-/* =========================
-   AUTO MINING SYSTEM
-========================= */
-
-function startMining(){
-
-  setInterval(() => {
-
-    if(miningActive && energy > 0){
-
-      let mined =
-        hashRate / 100000;
-
-      balance += mined;
-
-      totalMined += mined;
-
-      energy -= 0.05;
-
-      if(energy <= 0){
-
-        energy = 0;
-
-        miningActive = false;
-
-        showNotification(
-          "Energy depleted!"
-        );
-      }
-
-      updateUI();
-
-      saveData();
-    }
-
-  },1000);
-
-}
-
-startMining();
-
-/* =========================
-   RECHARGE ENERGY
-========================= */
-
-function rechargeEnergy(){
-
-  energy = 100;
-
-  miningActive = true;
-
-  updateUI();
-
-  saveData();
-
-  showNotification(
-    "Energy fully recharged!"
-  );
-}
-
-/* =========================
-   UPGRADE SYSTEM
-========================= */
+/* ======================
+   UPGRADE MINER
+====================== */
 
 function upgradeMiner(){
 
-  let cost =
-    minerLevel * 0.002;
+  let cost = 0.002;
 
   if(balance >= cost){
 
@@ -184,49 +150,72 @@ function upgradeMiner(){
 
     hashRate += 0.8;
 
-    minerLevel += 1;
-
     energy = 100;
-
-    miningActive = true;
 
     updateUI();
 
     saveData();
 
-    showNotification(
-      "Miner upgraded to LVL " +
-      minerLevel
-    );
+    tg.showPopup({
+
+      title:"Upgrade Complete",
+
+      message:
+      "Mining power increased!",
+
+      buttons:[
+        {type:"ok"}
+      ]
+
+    });
 
   }else{
 
-    showNotification(
-      "Not enough balance!"
-    );
+    tg.showPopup({
+
+      title:"Insufficient Balance",
+
+      message:
+      "You need more BTC.",
+
+      buttons:[
+        {type:"ok"}
+      ]
+
+    });
+
   }
 
 }
 
-/* =========================
+/* ======================
    DAILY REWARD
-========================= */
+====================== */
 
-function claimDailyReward(){
+function claimReward(){
 
   let today =
     new Date().toDateString();
 
   let lastClaim =
     localStorage.getItem(
-      "lastDailyClaim"
+      "lastClaim"
     );
 
   if(lastClaim === today){
 
-    showNotification(
-      "Daily reward already claimed!"
-    );
+    tg.showPopup({
+
+      title:"Already Claimed",
+
+      message:
+      "Daily reward already claimed today.",
+
+      buttons:[
+        {type:"ok"}
+      ]
+
+    });
 
     return;
   }
@@ -234,7 +223,7 @@ function claimDailyReward(){
   balance += 0.001;
 
   localStorage.setItem(
-    "lastDailyClaim",
+    "lastClaim",
     today
   );
 
@@ -242,239 +231,119 @@ function claimDailyReward(){
 
   saveData();
 
-  showNotification(
-    "Daily reward claimed!"
-  );
+  tg.showPopup({
 
-}
+    title:"Reward Claimed",
 
-/* =========================
-   FAKE LIVE MINERS
-========================= */
+    message:
+    "0.001 BTC added!",
 
-function updateOnlineMiners(){
+    buttons:[
+      {type:"ok"}
+    ]
 
-  setInterval(() => {
-
-    let miners =
-      Math.floor(
-        Math.random() * 3000
-      ) + 4000;
-
-    document.getElementById(
-      "onlineMiners"
-    ).innerText =
-      miners + " miners online";
-
-  },5000);
-
-}
-
-updateOnlineMiners();
-
-/* =========================
-   MINING HISTORY
-========================= */
-
-function saveMiningHistory(amount){
-
-  let history =
-    JSON.parse(
-      localStorage.getItem(
-        "miningHistory"
-      )
-    ) || [];
-
-  history.push({
-    amount:amount.toFixed(6),
-    time:new Date()
-      .toLocaleTimeString()
   });
 
-  localStorage.setItem(
-    "miningHistory",
-    JSON.stringify(history)
-  );
-
 }
 
-/* =========================
-   AUTO HISTORY SAVE
-========================= */
+/* ======================
+   ONLINE USERS
+====================== */
 
 setInterval(() => {
 
-  let mined =
-    hashRate / 100000;
+  let miners =
+    Math.floor(
+      Math.random() * 3000
+    ) + 4000;
 
-  saveMiningHistory(mined);
+  document.getElementById(
+    "onlineUsers"
+  ).innerText =
+    miners + " miners online";
 
-},10000);
+},4000);
 
-/* =========================
-   MARKET PRICE ANIMATION
-========================= */
+/* ======================
+   MARKET DATA
+====================== */
 
-function updateMarketPrices(){
+async function loadMarket(){
 
-  setInterval(() => {
+  try{
 
-    btcPrice +=
-      (Math.random() * 500) - 250;
+    let response =
+      await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,binancecoin,solana,the-open-network,dogecoin"
+      );
 
-    document.querySelectorAll(
-      ".coin-price"
-    )[0].innerText =
-      "$" +
-      Math.floor(btcPrice);
+    let data =
+      await response.json();
 
-  },6000);
+    let marketHTML = "";
 
-}
+    data.forEach(coin => {
 
-updateMarketPrices();
+      let change =
+        coin.price_change_percentage_24h;
 
-/* =========================
-   NOTIFICATION SYSTEM
-========================= */
+      let color =
+        change >= 0
+        ? "green"
+        : "red";
 
-function showNotification(message){
+      marketHTML += `
 
-  let notification =
-    document.createElement("div");
+      <div class="market-item">
 
-  notification.innerText =
-    message;
+        <div class="market-left">
 
-  notification.style.position =
-    "fixed";
+          <div class="coin-icon">
+            ${coin.symbol.toUpperCase()}
+          </div>
 
-  notification.style.top =
-    "20px";
+          <div>
 
-  notification.style.right =
-    "20px";
+            <div class="coin-name">
+              ${coin.name}
+            </div>
 
-  notification.style.background =
-    "#00f0ff";
+            <div class="coin-price">
+              $${coin.current_price}
+            </div>
 
-  notification.style.color =
-    "#000";
+          </div>
 
-  notification.style.padding =
-    "12px 18px";
+        </div>
 
-  notification.style.borderRadius =
-    "14px";
+        <div class="${color}">
+          ${change.toFixed(2)}%
+        </div>
 
-  notification.style.fontWeight =
-    "bold";
+      </div>
 
-  notification.style.zIndex =
-    "9999";
+      `;
 
-  notification.style.boxShadow =
-    "0 0 20px rgba(0,240,255,0.4)";
+    });
 
-  document.body.appendChild(
-    notification
-  );
+    document.getElementById(
+      "marketList"
+    ).innerHTML =
+      marketHTML;
 
-  setTimeout(() => {
+  }catch(error){
 
-    notification.remove();
-
-  },3000);
-
-}
-
-/* =========================
-   SOUND EFFECT
-========================= */
-
-function playSound(){
-
-  let audio =
-    new Audio(
-      "https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"
-    );
-
-  audio.volume = 0.3;
-
-  audio.play();
-
-}
-
-/* =========================
-   VIBRATION
-========================= */
-
-function vibrateDevice(){
-
-  if(navigator.vibrate){
-
-    navigator.vibrate(100);
+    console.log(error);
 
   }
 
 }
 
-/* =========================
-   AUTO ENERGY REGEN
-========================= */
+loadMarket();
 
-setInterval(() => {
-
-  if(energy < 100){
-
-    energy += 0.02;
-
-    if(energy > 100){
-
-      energy = 100;
-    }
-
-    updateUI();
-
-    saveData();
-  }
-
-},3000);
-
-/* =========================
-   BUTTON ANIMATIONS
-========================= */
-
-document.querySelectorAll(
-  ".upgrade-btn"
-).forEach(button => {
-
-  button.addEventListener(
-    "click",
-    () => {
-
-      playSound();
-
-      vibrateDevice();
-
-    }
-  );
-
-});
-
-/* =========================
-   AUTO SAVE
-========================= */
-
-setInterval(() => {
-
-  saveData();
-
-},5000);
-
-/* =========================
-   CHART.JS
-========================= */
+/* ======================
+   CHART
+====================== */
 
 const ctx =
 document.getElementById(
@@ -498,7 +367,7 @@ new Chart(ctx, {
 
     datasets:[{
 
-      label:"Mining Earnings",
+      label:"Mining",
 
       data:[
         2,
@@ -511,11 +380,10 @@ new Chart(ctx, {
 
       borderWidth:3,
 
-      tension:0.4,
-
-      fill:true
+      tension:0.4
 
     }]
+
   },
 
   options:{
@@ -541,15 +409,7 @@ new Chart(ctx, {
       x:{
 
         ticks:{
-
           color:"white"
-
-        },
-
-        grid:{
-
-          color:"rgba(255,255,255,0.05)"
-
         }
 
       },
@@ -557,15 +417,7 @@ new Chart(ctx, {
       y:{
 
         ticks:{
-
           color:"white"
-
-        },
-
-        grid:{
-
-          color:"rgba(255,255,255,0.05)"
-
         }
 
       }
@@ -576,12 +428,8 @@ new Chart(ctx, {
 
 });
 
-/* =========================
-   START APP
-========================= */
+/* ======================
+   START
+====================== */
 
 updateUI();
-
-console.log(
-  "Crypto Mining Dashboard Loaded"
-);
