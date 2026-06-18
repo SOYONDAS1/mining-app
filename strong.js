@@ -1,1 +1,0 @@
-<script>(function(s){s.dataset.zone='11024782',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
