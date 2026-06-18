@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Info Web - Coinzila Publisher</title>
+    <style>
+        /* CSS: অ্যাডভান্সড এবং রেসপন্সিভ ডিজাইন */
+        :root {
+            --primary-color: #0b0c10;
+            --secondary-color: #1f2833;
+            --accent-color: #66fcf1;
+            --text-color: #c5c6c7;
+            --bg-color: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: #333;
+            line-height: 1.8;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+        }
+
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { color: var(--text-color); font-size: 1.1rem; }
+
+        nav {
+            background: var(--secondary-color);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        nav button {
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        nav button:hover {
+            background: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+
+        .content-area {
+            flex: 3;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .content-area h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 10px;
+        }
+
+        /* Sidebar for Coinzila Ads */
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ad-box {
+            background: #e8e8e8;
+            border: 2px dashed #b0b0b0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            min-height: 250px;
+            color: #777;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Crypto & Web3 Insights</h1>
+        <p>ভবিষ্যতের প্রযুক্তি এবং ক্রিপ্টোকারেন্সি সম্পর্কিত সবচেয়ে বড় হাব</p>
+    </header>
+
+    <nav>
+        <button onclick="changeArticle(1)">ব্লকচেইন প্রযুক্তি</button>
+        <button onclick="changeArticle(2)">DeFi (ডিসেন্ট্রালাইজড ফাইন্যান্স)</button>
+        <button onclick="changeArticle(3)">NFT এর দুনিয়া</button>
+        <button onclick="changeArticle(4)">মেটাভার্স ও Web 3.0</button>
+        <button onclick="changeArticle(5)">ক্রিপ্টো ট্রেডিং গাইড</button>
+    </nav>
+
+    <div class="container">
+        <div class="content-area" id="main-content">
+            <h2>স্বাগতম!</h2>
+            <p>উপরের মেনু থেকে যেকোনো একটি আর্টিকেলে ক্লিক করুন। আর্টিকেলে ক্লিক করার সাথে সাথে পেজটি রিলোড হবে এবং নতুন অ্যাড প্রদর্শিত হবে। প্রতিটি আর্টিকেল অত্যন্ত তথ্যবহুল এবং ক্রিপ্টো অ্যাড ম্যাচিংয়ের জন্য পারফেক্ট।</p>
+        </div>
+
+        <div class="sidebar">
+            <div class="ad-box">
+                <p>Coinzila Ad Zone 1<br>(Insert Code Here)</p>
+            </div>
+            <div class="ad-box" style="min-height: 600px;">
+                <p>Coinzila Ad Zone 2<br>(Insert Code Here)</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Crypto & Web3 Insights. সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+
+    <script>
+        // ৫টি বড় আর্টিকেলের ডেটাবেস (Coinzila এড ম্যাচিং এর জন্য ক্রিপ্টো রিলেটেড)
+        const articleDatabase = {
+            1: {
+                title: "ব্লকচেইন প্রযুক্তি: ডিজিটাল দুনিয়ার নতুন বিপ্লব",
+                content: `
+                    <p>ব্লকচেইন হলো একটি আধুনিক প্রযুক্তি যা মূলত তথ্য সংরক্ষণের একটি নিরাপদ ও বিকেন্দ্রীভূত (Decentralized) পদ্ধতি। এটি এমন একটি ডিস্ট্রিবিউটেড লেজার (Distributed Ledger) প্রযুক্তি, যেখানে ডেটা ব্লক আকারে সংরক্ষিত থাকে এবং প্রতিটি ব্লক ক্রিপ্টোগ্রাফির মাধ্যমে একে অপরের সাথে যুক্ত থাকে।</p>
+                    <h3>কীভাবে কাজ করে?</h3>
+                    <p>যখনই কোনো নতুন লেনদেন হয়, সেটি একটি নতুন ব্লকে রেকর্ড হয়। এরপর সেই ব্লকটি নেটওয়ার্কে থাকা অন্যান্য কম্পিউটার (যাদের নোড বলা হয়) দ্বারা যাচাই করা হয়। যাচাইকরণ সফল হলে সেটি মূল চেইনের সাথে যুক্ত হয়। এই প্রক্রিয়ায় একবার ডেটা এন্ট্রি হলে সেটি পরিবর্তন বা হ্যাক করা প্রায় অসম্ভব।</p>
+                    <h3>ভবিষ্যতের সম্ভাবনা</h3>
+                    <p>বর্তমানে বিটকয়েন বা ইথেরিয়ামের মতো ক্রিপ্টোকারেন্সির মূলে রয়েছে ব্লকচেইন। তবে এর ব্যবহার কেবল ফাইন্যান্সেই সীমাবদ্ধ নেই। স্বাস্থ্যসেবা, ভোটিং সিস্টেম, সাপ্লাই চেইন ম্যানেজমেন্ট এবং সাইবার সিকিউরিটিতে ব্লকচেইন প্রযুক্তি বিশাল পরিবর্তন আনছে। বিশেষ করে স্মার্ট কন্ট্রাক্ট (Smart Contracts) এর মাধ্যমে চুক্তি সম্পাদনের পদ্ধতি আরো সহজ ও স্বয়ংক্রিয় হয়ে উঠেছে।</p>
+                `
+            },
+            2: {
+                title: "DeFi (ডিসেন্ট্রালাইজড ফাইন্যান্স): ব্যাংকিংয়ের বিকল্প",
+                content: `
+                    <p>DeFi বা ডিসেন্ট্রালাইজড ফাইন্যান্স হলো এমন একটি আর্থিক ব্যবস্থা যা প্রচলিত ব্যাংক বা কোনো কেন্দ্রীয় কর্তৃপক্ষের ওপর নির্ভরশীল নয়। এটি সরাসরি ব্লকচেইন নেটওয়ার্কের ওপর ভিত্তি করে কাজ করে, যেখানে ব্যবহারকারীরা একে অপরের সাথে সরাসরি লেনদেন করতে পারে।</p>
+                    <h3>কেন DeFi এত জনপ্রিয়?</h3>
+                    <p>প্রচলিত ব্যাংকিং ব্যবস্থায় অনেক মধ্যস্বত্বভোগী থাকে, যার ফলে লেনদেনে সময় ও খরচ বেশি লাগে। কিন্তু DeFi-তে স্মার্ট কন্ট্রাক্ট ব্যবহার করা হয়, যা স্বয়ংক্রিয়ভাবে কাজ করে। এখানে কোনো তৃতীয় পক্ষের প্রয়োজন হয় না। লোন নেওয়া, টাকা ধার দেওয়া, ট্রেডিং করা সবকিছুই একটি নিরাপদ নেটওয়ার্কে সম্পন্ন হয়।</p>
+                    <h3>DeFi এর ঝুঁকি এবং সতর্কতা</h3>
+                    <p>যদিও DeFi একটি বৈপ্লবিক প্রযুক্তি, এর কিছু ঝুঁকিও রয়েছে। স্মার্ট কন্ট্রাক্টের কোডিংয়ে কোনো ত্রুটি থাকলে হ্যাকাররা তা কাজে লাগিয়ে ফান্ড চুরি করতে পারে। এছাড়া ক্রিপ্টো মার্কেটের উচ্চ ভোল্যাটিলিটির কারণে লিকুইডেশন ঝুঁকি থাকে। তাই DeFi প্রটোকল ব্যবহারের আগে যথেষ্ট গবেষণা করা জরুরি।</p>
+                `
+            },
+            3: {
+                title: "NFT (Non-Fungible Token): ডিজিটাল সম্পদের ভবিষ্যৎ",
+                content: `
+                    <p>NFT বা নন-ফাঞ্জিবল টোকেন হলো ডিজিটাল সম্পদের এক অনন্য প্রমাণপত্র যা ব্লকচেইন প্রযুক্তির সাহায্যে তৈরি করা হয়। 'নন-ফাঞ্জিবল' মানে হলো এটি পরিবর্তনযোগ্য নয় বা এর কোনো হুবহু বিকল্প নেই। একটি বিটকয়েন অন্য একটি বিটকয়েনের সমান, কিন্তু একটি NFT সম্পূর্ণ আলাদা।</p>
+                    <h3>NFT দিয়ে কী হয়?</h3>
+                    <p>ডিজিটাল আর্ট, মিউজিক, ভিডিও গেমের আইটেম, এমনকি ভার্চুয়াল জমির মালিকানাও NFT এর মাধ্যমে বেচাকেনা হচ্ছে। এটি ডিজিটাল আর্টিস্টদের জন্য এক নতুন আয়ের পথ খুলে দিয়েছে। যখন কেউ একটি NFT কেনে, তখন সে মূলত সেই ডিজিটাল ফাইলটির মূল মালিকানার সার্টিফিকেটটি কেনে, যা ব্লকচেইনে রেকর্ড থাকে।</p>
+                    <h3>মার্কেটপ্লেস ও ভবিষ্যৎ</h3>
+                    <p>OpenSea, Blur, Magic Eden এর মতো মার্কেটপ্লেসগুলোতে প্রতিদিন মিলিয়ন ডলারের NFT বেচাকেনা হচ্ছে। মেটাভার্স (Metaverse) জনপ্রিয় হওয়ার সাথে সাথে NFT এর ব্যবহারও বৃদ্ধি পাচ্ছে। ভবিষ্যতে হয়তো রিয়েল এস্টেট বা অন্যান্য বাস্তব সম্পদের মালিকানাও NFT এর মাধ্যমে পরিচালিত হবে।</p>
+                `
+            },
+            4: {
+                title: "মেটাভার্স এবং Web 3.0: ইন্টারনেটের নতুন যুগ",
+                content: `
+                    <p>ইন্টারনেট প্রযুক্তির দ্রুত বিবর্তনের ফলে আমরা এখন Web 3.0 এবং মেটাভার্সের যুগে প্রবেশ করছি। Web 1.0 ছিল শুধু পড়ার জন্য (Read-only), Web 2.0 হলো ইন্টারেক্টিভ (Read-write, যেমন সোশ্যাল মিডিয়া), আর Web 3.0 হলো বিকেন্দ্রীভূত ইন্টারনেট যেখানে ব্যবহারকারীরা তাদের ডেটার মালিকানা নিজেরাই ধারণ করবে (Read-write-own)।</p>
+                    <h3>মেটাভার্স (Metaverse) কী?</h3>
+                    <p>মেটাভার্স হলো একটি ভার্চুয়াল দুনিয়া যেখানে মানুষ ভার্চুয়াল রিয়েলিটি (VR) এবং অগমেন্টেড রিয়েলিটি (AR) ব্যবহার করে একে অপরের সাথে যুক্ত হতে পারবে। সেখানে মানুষ কাজ করতে, খেলতে, এবং ডিজিটাল জমি বা সম্পদ কিনতে পারবে।</p>
+                    <h3>Web 3.0 তে ব্লকচেইনের ভূমিকা</h3>
+                    <p>Web 3.0 পুরোপুরি ব্লকচেইন নির্ভর। এখানে গুগল বা ফেসবুকের মতো কোনো কেন্দ্রীয় সার্ভার থাকবে না। ডেটা সংরক্ষিত হবে ডিস্ট্রিবিউটেড লেজারে। ক্রিপ্টোকারেন্সি হবে এই নতুন ইন্টারনেটের মূল মুদ্রা। মেটাভার্সে কেনাকাটা বা লেনদেনের জন্য ক্রিপ্টো এবং NFT ব্যবহার করা হবে।</p>
+                `
+            },
+            5: {
+                title: "ক্রিপ্টো ট্রেডিং গাইড: নতুনদের জন্য বেসিক ও ঝুঁকি ব্যবস্থাপনা",
+                content: `
+                    <p>ক্রিপ্টোকারেন্সি ট্রেডিং বর্তমানে সবচেয়ে লাভজনক কিন্তু একইসাথে সবচেয়ে ঝুঁকিপূর্ণ একটি পেশা। বিটকয়েন, ইথেরিয়াম বা অন্যান্য অল্টকয়েনের (Altcoin) দাম সেকেন্ডের মধ্যে বিপুল পরিমাণ ওঠানামা করতে পারে। তাই ক্রিপ্টো ট্রেডিং শুরু করার আগে কিছু বেসিক নিয়ম জানা জরুরি।</p>
+                    <h3>টেকনিক্যাল এবং ফান্ডামেন্টাল অ্যানালাইসিস</h3>
+                    <p>ট্রেড করার আগে দুটি জিনিস বুঝতে হবে। ফান্ডামেন্টাল অ্যানালাইসিস হলো একটি কয়েন এর পেছনের প্রযুক্তি, টিম এবং বাস্তব ব্যবহারিক মূল্য যাচাই করা। অন্যদিকে টেকনিক্যাল অ্যানালাইসিস হলো চার্ট, ক্যান্ডেলস্টিক প্যাটার্ন এবং বিভিন্ন ইনডিকেটর (যেমন RSI, MACD) ব্যবহার করে প্রাইসের ভবিষ্যৎ গতিবিধি অনুমান করা।</p>
+                    <h3>রিস্ক ম্যানেজমেন্ট (Risk Management)</h3>
+                    <p>ক্রিপ্টো মার্কেটে টিকে থাকার মূল মন্ত্র হলো রিস্ক ম্যানেজমেন্ট। কখনো নিজের পুরো মূলধন একটি কয়েনে বিনিয়োগ করা উচিত নয়। স্টপ-লস (Stop-loss) ব্যবহার করা বাধ্যতামূলক। আপনার পোর্টফোলিওকে ডাইভারসিফাই করুন এবং শুধুমাত্র সেই পরিমাণ অর্থই বিনিয়োগ করুন, যা হারালে আপনার ব্যক্তিগত জীবনে কোনো বড় প্রভাব পড়বে না।</p>
+                `
+            }
+        };
+
+        // ফাংশন: আর্টিকেলে ক্লিক করলে পেজ রিফ্রেশ হবে এবং ইউআরএল এ আইডি বসবে
+        function changeArticle(id) {
+            // এটি পেজটিকে রিফ্রেশ করে নতুন আর্টিকেল লোড করবে (ফলে অ্যাডও রিফ্রেশ হবে)
+            window.location.href = window.location.pathname + "?article=" + id;
+        }
+
+        // পেজ লোড হওয়ার সময় ইউআরএল থেকে আর্টিকেল আইডি চেক করে কন্টেন্ট দেখানো
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('article');
+            
+            if(articleId && articleDatabase[articleId]) {
+                document.getElementById('main-content').innerHTML = `
+                    <h2>${articleDatabase[articleId].title}</h2>
+                    ${articleDatabase[articleId].content}
+                `;
+            }
+
+            // --- অটোমেটিক পেজ রিফ্রেশ (Auto Refresh) ---
+            // সতর্কতা: এটি অ্যাড নেটওয়ার্কের পলিসি বিরুদ্ধ হতে পারে। 
+            // নিচে 60000 মিলি-সেকেন্ড (১ মিনিট) দেওয়া আছে। আপনি চাইলে সময় পরিবর্তন করতে পারেন।
+            setTimeout(function() {
+                window.location.reload();
+            }, 60000); // 60000 ms = 60 seconds
+        }
+    </script>
+</body>
+</html>
